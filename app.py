@@ -139,3 +139,4 @@ if add_clicked:
     t.add_friend(int(friends_list))
   else:
     t.friend_not_found()# Commit 10 at 2024-03-18 00:00:00
+# Commit 12 at 2024-03-20 00:00:00
