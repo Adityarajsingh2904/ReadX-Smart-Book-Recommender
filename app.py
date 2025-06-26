@@ -69,7 +69,7 @@ authors = df['Book-Author'].unique()
 titles = df['Book-Title']
 rs = df_books[df_books['Book-Author'].isin(authors) & ~df_books['Book-Title'].isin(titles)]
 rs = rs.sample(10)
-print(rs)
+# print(rs)
 t.recommendations(rs)
 
 st.subheader('Trending among your friends')
@@ -78,7 +78,7 @@ df = df_books_ratings[df_books_ratings['User-ID'].isin(friends)]
 df = df.merge(df_books, on='ISBN')
 rs = df.drop_duplicates(subset=['Book-Title'])
 rs = rs.sample(10)
-print(rs)
+# print(rs)
 t.recommendations(rs)
 
 st.subheader('People with common interests read' , st.session_state['ISBN'])
@@ -108,7 +108,7 @@ jaccard = pd.DataFrame(lst, columns=['ISBN', 'Jaccard Distance'])
 jaccard = jaccard.sort_values(by="Jaccard Distance", ascending=False).head(10)
 rs = df_books[df_books['ISBN'].isin(jaccard['ISBN'])]
 df = rs.head(10)
-print(df)
+# print(df)
 t.recommendations(df)
 
 st.subheader('About us')
@@ -135,33 +135,7 @@ if add_clicked:
   if friendid.isdigit() and int(friendid) in friends_list:
     t.already_added()
   elif friendid.isdigit() and int(friendid) in df_books_ratings['User-ID'].unique():
-    friends_list.append(friendid)
-    t.add_friend(int(friends_list))
+    friends_list.append(int(friendid))
+    t.add_friend(friends_list)
   else:
-    t.friend_not_found()# Commit 10 at 2024-03-18 00:00:00
-# Commit 12 at 2024-03-20 00:00:00
-# Commit 14 at 2024-03-21 00:00:00
-# Commit 16 at 2024-03-23 00:00:00
-# Commit 18 at 2024-03-24 03:00:00
-# Commit 20 at 2024-03-26 00:00:00
-# Commit 22 at 2024-03-28 00:00:00
-# Commit 24 at 2024-03-29 00:00:00
-# Commit 26 at 2024-03-31 00:00:00
-# Commit 28 at 2024-04-02 00:00:00
-# Commit 30 at 2024-04-04 00:00:00
-# Commit 32 at 2024-04-05 00:00:00
-# Commit 34 at 2024-04-07 00:00:00
-# Commit 36 at 2024-04-08 03:00:00
-# Commit 38 at 2024-04-10 00:00:00
-# Commit 40 at 2024-04-12 00:00:00
-# Commit 42 at 2024-04-13 00:00:00
-# Commit 44 at 2024-04-15 00:00:00
-# Commit 46 at 2024-04-16 03:00:00
-# Commit 48 at 2024-04-18 00:00:00
-# Commit 50 at 2024-04-20 00:00:00
-# Commit 52 at 2024-04-21 00:00:00
-# Commit 54 at 2024-04-23 00:00:00
-# Commit 56 at 2024-04-24 03:00:00
-# Commit 58 at 2024-04-26 00:00:00
-# Commit 60 at 2024-04-28 00:00:00
-# Commit 62 at 2024-04-29 00:00:00
+    t.friend_not_found()
