@@ -51,20 +51,6 @@ df_book = df_books[df_books["ISBN"] == st.session_state["ISBN"]]
 
 
 def jaccard_similarity(user_ids_isbn_a, user_ids_isbn_b):
-    """Return Jaccard similarity for two ISBN user ID lists.
-
-    Parameters
-    ----------
-    user_ids_isbn_a : iterable
-        User IDs for the first ISBN.
-    user_ids_isbn_b : iterable
-        User IDs for the second ISBN.
-
-    Returns
-    -------
-    float
-        Intersection over union of the two user ID sets.
-    """
 
     set_isbn_a = set(user_ids_isbn_a)
     set_isbn_b = set(user_ids_isbn_b)
