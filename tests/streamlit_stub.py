@@ -50,14 +50,18 @@ def image(*args, **kwargs):
 def title(*args, **kwargs):
     pass
 
+
 def markdown(*args, **kwargs):
     pass
+
 
 def caption(*args, **kwargs):
     pass
 
+
 def subheader(*args, **kwargs):
     pass
+
 
 def write(*args, **kwargs):
     pass
