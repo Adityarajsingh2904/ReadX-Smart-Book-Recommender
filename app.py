@@ -44,7 +44,7 @@ dict_isbn_groups = df_books_ratings.groupby(["ISBN"])["User-ID"].aggregate(
 )
 
 
-def jaccard_distance(user_ids_isbn_a, user_ids_isbn_b):
+def jaccard_similarity(user_ids_isbn_a, user_ids_isbn_b):
 
     set_isbn_a = set(user_ids_isbn_a)
     set_isbn_b = set(user_ids_isbn_b)
@@ -118,13 +118,11 @@ else:  # if not try the other editions
 
 lst = []
 for book, users in dict_isbn_groups.items():
-    d = jaccard_distance(dict_isbn_groups[isbn], users)
-    if book != isbn and d > 0.0 and d < 0.8:
-        d = jaccard_distance(dict_isbn_groups[isbn], users)
-        lst.append([book, d])
-
-jaccard = pd.DataFrame(lst, columns=["ISBN", "Jaccard Distance"])
-jaccard = jaccard.sort_values(by="Jaccard Distance", ascending=False).head(10)
+    similarity = jaccard_similarity(dict_isbn_groups[isbn], users)
+    if book != isbn and 0.0 < similarity < 0.8:
+        lst.append([book, similarity])
+jaccard = pd.DataFrame(lst, columns=["ISBN", "Jaccard Similarity"])
+jaccard = jaccard.sort_values(by="Jaccard Similarity", ascending=False).head(10)
 rs = df_books[df_books["ISBN"].isin(jaccard["ISBN"])]
 df = rs.head(10)
 # print(df)
