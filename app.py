@@ -155,11 +155,10 @@ friendid = st.sidebar.text_input(
 add_clicked = st.sidebar.button("Add")
 if add_clicked:
 
-  if friendid.isdigit() and int(friendid) in st.session_state["Friends"]:
-    t.already_added()
-  elif friendid.isdigit() and int(friendid) in df_books_ratings['User-ID'].unique():
-    st.session_state["Friends"].append(int(friendid))
-    t.add_friend(st.session_state["Friends"])
-  else:
-    t.friend_not_found()
-
+    if friendid.isdigit() and int(friendid) in st.session_state["Friends"]:
+        t.already_added()
+    elif friendid.isdigit() and int(friendid) in df_books_ratings["User-ID"].unique():
+        st.session_state["Friends"].append(int(friendid))
+        t.add_friend(st.session_state["Friends"])
+    else:
+        t.friend_not_found()
