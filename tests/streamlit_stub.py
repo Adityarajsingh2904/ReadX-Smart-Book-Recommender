@@ -9,3 +9,18 @@ class Sidebar:
         pass
 
 sidebar = Sidebar()
+
+# capture error messages for assertions
+errors = []
+
+
+def set_page_config(*args, **kwargs):
+    pass
+
+
+def error(message):
+    errors.append(message)
+
+
+def stop():
+    raise RuntimeError("stop")
