@@ -38,7 +38,6 @@ if "Consent" not in st.session_state:
         placeholder.empty()
 
 # initializations
-friends_list = [277427, 278026, 277523, 276680]
 df_book = df_books[df_books["ISBN"] == st.session_state["ISBN"]]
 dict_isbn_groups = df_books_ratings.groupby(["ISBN"])["User-ID"].aggregate(
     lambda x: list(x)
@@ -159,11 +158,11 @@ friendid = st.sidebar.text_input(
 add_clicked = st.sidebar.button("Add")
 if add_clicked:
 
-  if friendid.isdigit() and int(friendid) in friends_list:
+  if friendid.isdigit() and int(friendid) in st.session_state["Friends"]:
     t.already_added()
   elif friendid.isdigit() and int(friendid) in df_books_ratings['User-ID'].unique():
-    friends_list.append(int(friendid))
-    t.add_friend(friends_list)
+    st.session_state["Friends"].append(int(friendid))
+    t.add_friend(st.session_state["Friends"])
   else:
     t.friend_not_found()
 
