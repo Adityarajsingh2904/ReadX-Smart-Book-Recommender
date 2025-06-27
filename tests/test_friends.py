@@ -1,4 +1,6 @@
-import streamlit as st
+import pytest
+
+st = pytest.importorskip("streamlit")
 import template as t
 
 
