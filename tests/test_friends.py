@@ -1,6 +1,6 @@
-import pytest
-
-st = pytest.importorskip("streamlit")
+import sys
+import tests.streamlit_stub as st
+sys.modules["streamlit"] = st
 import template as t
 
 
