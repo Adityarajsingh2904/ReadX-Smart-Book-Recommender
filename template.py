@@ -1,5 +1,6 @@
 import streamlit as st
 from random import random
+import uuid
 
 
 # set episode session state
@@ -17,7 +18,12 @@ def add_friend(friends_list):
 
 def tile_item(column, item):
     with column:
-        st.button("📖", key=random(), on_click=select_book, args=(item["ISBN"],))
+        st.button(
+            "📖",
+            key=str(uuid.uuid4()),
+            on_click=select_book,
+            args=(item["ISBN"],),
+        )
         st.image(item["Image-URL-M"], use_column_width="always")
         st.caption(item["Book-Title"])
 
