@@ -16,6 +16,9 @@ class Sidebar:
 
 sidebar = Sidebar()
 
+# capture error messages for tests
+errors = []
+
 
 
 
@@ -26,6 +29,14 @@ def set_page_config(*args, **kwargs):
 
 def info(*args, **kwargs):
     pass
+
+
+def error(message):
+    errors.append(message)
+
+
+def stop():
+    raise RuntimeError("stop")
 
 
 def button(*args, **kwargs):
