@@ -1,7 +1,9 @@
 import sys
+import importlib
 import tests.streamlit_stub as st
+
 sys.modules["streamlit"] = st
-import template as t
+t = importlib.import_module("template")
 
 
 def test_no_duplicate_addition():
