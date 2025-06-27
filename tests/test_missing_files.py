@@ -13,6 +13,7 @@ def test_missing_datasets():
         del sys.modules['app']
 
     pd_stub = types.ModuleType('pandas')
+
     def raise_fn(*args, **kwargs):
         raise FileNotFoundError('missing')
     pd_stub.read_csv = raise_fn
