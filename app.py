@@ -12,6 +12,10 @@ try:
         "data/BX-Book-Ratings-Subset.csv", sep=";", encoding="latin-1"
     )
     df_users = pd.read_csv("data/BX-Users.csv", sep=";", encoding="latin-1")
+    # pre-compute ISBN -> user list mapping once
+    dict_isbn_groups = df_books_ratings.groupby(["ISBN"])["User-ID"].aggregate(
+        lambda x: list(x)
+    )
 except FileNotFoundError:
     st.error(
         "Required dataset files not found. Please ensure the CSV files are present"
@@ -44,9 +48,6 @@ if "Consent" not in st.session_state:
 
 # initializations
 df_book = df_books[df_books["ISBN"] == st.session_state["ISBN"]]
-dict_isbn_groups = df_books_ratings.groupby(["ISBN"])["User-ID"].aggregate(
-    lambda x: list(x)
-)
 
 
 def jaccard_similarity(user_ids_isbn_a, user_ids_isbn_b):
@@ -100,9 +101,28 @@ rs = rs.sample(10)
 t.recommendations(rs)
 
 st.subheader("People with common interests read", st.session_state["ISBN"])
-import recommender as rec
-rec_books = rec.recommend_books(st.session_state["User-ID"], n=10)
-df = pd.DataFrame(rec_books)
+isbn = st.session_state["ISBN"]
+title = df_books[df_books["ISBN"] == isbn]["Book-Title"].values
+diff_editions = df_books[
+    (df_books["Book-Title"].isin(title)) & (df_books["ISBN"] != isbn)
+]["ISBN"].values
+if isbn not in dict_isbn_groups:
+    for edition in diff_editions:
+        if edition in dict_isbn_groups:
+            isbn = edition
+            break
+    else:
+        isbn = random.choice(list(dict_isbn_groups.keys()))
+
+lst = []
+for book, users in dict_isbn_groups.items():
+    similarity = jaccard_similarity(dict_isbn_groups[isbn], users)
+    if book != isbn and 0.0 < similarity < 0.8:
+        lst.append([book, similarity])
+jaccard = pd.DataFrame(lst, columns=["ISBN", "Jaccard Similarity"])
+jaccard = jaccard.sort_values(by="Jaccard Similarity", ascending=False).head(10)
+rs = df_books[df_books["ISBN"].isin(jaccard["ISBN"])]
+df = rs.head(10)
 t.recommendations(df)
 
 st.subheader("About us")
