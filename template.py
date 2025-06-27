@@ -36,7 +36,8 @@ def recommendations(df):
         items = df.to_dict(orient="records")
 
         # apply tile_item to each column-item tuple (created with python 'zip')
-        any(tile_item(x[0], x[1]) for x in zip(columns, items))
+        for column, item in zip(columns, items):
+            tile_item(column, item)
 
 
 def wrong_credentials():
