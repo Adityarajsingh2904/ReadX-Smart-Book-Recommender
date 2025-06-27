@@ -100,37 +100,9 @@ rs = rs.sample(10)
 t.recommendations(rs)
 
 st.subheader("People with common interests read", st.session_state["ISBN"])
-isbn = st.session_state["ISBN"]
-dict_isbn_groups = df_books_ratings.groupby(["ISBN"])["User-ID"].aggregate(
-    lambda x: list(x)
-)  # create the dictionary
-title = df_books[df_books["ISBN"] == isbn]["Book-Title"].values
-diff_editions = df_books[
-    ((df_books["Book-Title"].isin(title)) & (df_books["ISBN"] != isbn))
-][
-    "ISBN"
-].values  # find for different editions of the same book
-flag = False
-if isbn in (dict_isbn_groups.keys()):  # if our isbn is in our dict continue
-    pass
-else:  # if not try the other editions
-    for i in range(len(diff_editions)):
-        if diff_editions[i] in (dict_isbn_groups.keys()):
-            isbn = diff_editions[i]
-            flag = True
-    if flag == False:  # if there aren't any other editions, choose a random
-        isbn = random.choice(list(dict_isbn_groups.keys()))
-
-lst = []
-for book, users in dict_isbn_groups.items():
-    similarity = jaccard_similarity(dict_isbn_groups[isbn], users)
-    if book != isbn and 0.0 < similarity < 0.8:
-        lst.append([book, similarity])
-jaccard = pd.DataFrame(lst, columns=["ISBN", "Jaccard Similarity"])
-jaccard = jaccard.sort_values(by="Jaccard Similarity", ascending=False).head(10)
-rs = df_books[df_books["ISBN"].isin(jaccard["ISBN"])]
-df = rs.head(10)
-# print(df)
+import recommender as rec
+rec_books = rec.recommend_books(st.session_state["User-ID"], n=10)
+df = pd.DataFrame(rec_books)
 t.recommendations(df)
 
 st.subheader("About us")
