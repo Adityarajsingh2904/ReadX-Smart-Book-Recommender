@@ -17,8 +17,10 @@ class Sidebar:
 sidebar = Sidebar()
 
 
+
 def set_page_config(*args, **kwargs):
     pass
+
 
 
 def info(*args, **kwargs):
@@ -64,3 +66,4 @@ def subheader(*args, **kwargs):
 
 def write(*args, **kwargs):
     pass
+
