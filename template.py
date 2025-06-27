@@ -1,5 +1,4 @@
 import streamlit as st
-from random import random
 import uuid
 
 
